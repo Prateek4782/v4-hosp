@@ -30,6 +30,21 @@ function reveal(){
 window.addEventListener('scroll',()=>{updatePg();updateNav();updateBktop();reveal();},{passive:true});
 window.addEventListener('load',()=>{reveal();updateNav();});
 
+/* "Do you feel this?" flip cards — tap-to-flip on touch, second tap navigates */
+document.querySelectorAll('.pc-card').forEach(card=>{
+  card.addEventListener('click',e=>{
+    const isTouch=matchMedia('(hover: none)').matches;
+    if(isTouch && !card.classList.contains('flipped')){
+      e.preventDefault();
+      document.querySelectorAll('.pc-card.flipped').forEach(c=>{ if(c!==card) c.classList.remove('flipped'); });
+      card.classList.add('flipped');
+      return;
+    }
+    const target=card.getAttribute('data-target');
+    if(target) window.location.href=target;
+  });
+});
+
 /* Hamburger */
 const ham=document.getElementById('ham');
 const mobNav=document.getElementById('mob-nav');
